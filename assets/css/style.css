@@ -1,0 +1,660 @@
+#main {
+    padding: 15px;
+    max-width: 1110px;
+    margin: 0 auto;
+}
+
+body, *, h1, h2, h3 {
+    font-family: 'Work Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #5C1F99;
+}
+
+p {
+    font-size: 14px;
+}
+
+h2 {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.legend-wrapper {
+    clear: both;
+    overflow: hidden;
+}
+
+.legend-items {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.legend-items .legend {
+    text-align: center;
+}
+
+.sharing {
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.share-icon {
+    display: inline-block;
+}
+
+.legend-logo {
+    float: left;
+    margin-right: 25px;
+}
+
+.legends {
+    float: left;
+}
+
+.legend {
+    font-size: 26px;
+    float: left;
+    margin: 0 15px 0 0;
+    font-weight: 500;
+}
+
+.legend .info {
+    font-size: 12px;
+    max-width: 200px;
+}
+
+.legend-inline {
+    margin-top: 4px;
+    font-size: 12px;
+}
+
+#mapid {
+    height: 550px;
+    margin-bottom: 15px;
+}
+
+.chart {
+    position: relative;
+    margin-bottom: 20px;
+    overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
+}
+
+.chart svg {
+    width: 100%;
+}
+
+.chart-tooltip {
+    position: absolute;
+    border-radius: 3px;
+    font-size: 12px;
+    padding: 6px;
+    max-width: 150px;
+    background: #fff;
+    border: 1px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.table .chart-tooltip {
+    left: 10px;
+    top: 25px;
+    min-width: 180px;
+    z-index: 1000;
+}
+
+.leaflet-bar {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+.leaflet-container {
+    background-color:rgba(255,0,0,0.0);
+}
+
+.leaflet-tooltip {
+    padding: 5px 10px;
+}
+
+.leaflet-tooltip strong {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.leaflet-tooltip .small-info {
+    font-weight: 500;
+}
+
+.chart-tooltip .gray,
+.leaflet-tooltip .gray {
+    color: #828282;
+}
+
+.circle-box {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 8px;
+    vertical-align: middle;
+}
+
+.deaths {
+    color: #666;
+    fill: #666;
+    stroke: #666;
+}
+.infected, .active {
+    color: #FF3C3C;
+    fill: #FF3C3C;
+    stroke: #FF3C3C;
+}
+.recovered {
+    color: #5BC859;
+    fill: #5BC859;
+    stroke: #5BC859;
+}
+.vaccinated {
+    color: #5BC859;
+    fill: #5BC859;
+    stroke: #5BC859;
+}
+.vaccinated2 {
+    color: #2d612c;
+    fill: #2d612c;
+    stroke: #2d612c;
+}
+.legend .vaccinated,
+.percentage,
+.tested {
+    color: #5C1F99;
+    fill: #5C1F99;
+    stroke: #5C1F99;
+}
+.median {
+    color: #FF3C3C;
+    fill: #FF3C3C;
+    stroke: #FF3C3C;
+}
+
+.infected-box {
+    background-color: #FF3C3C;
+}
+
+rect.infected {
+    stroke-width: 1.5;
+    stroke: #FF3C3C;
+    fill: #FF3C3C;
+}
+
+
+rect.vaccinated2 {
+    stroke-width: 1.5;
+    stroke: #2d612c;
+    fill: #2d612c;
+}
+
+rect.vaccinated {
+    stroke-width: 1.5;
+    stroke: #5BC859;
+    fill: #5BC859;
+}
+
+rect.tested {
+    stroke-width: 1.5;
+    stroke: #5C1F99;
+    fill: #8126d7;
+}
+
+circle.infected {
+    fill: #FF3C3C;
+    stroke: #FF3C3C;
+}
+
+.legend-circle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    line-height: 20px;
+    font-size: 10px;
+}
+
+.tested-background {
+    opacity: 0.25;
+}
+.infected-background {
+    opacity: 0.25;
+}
+.vaccinated2-background,
+.vaccinated-background {
+    opacity: 0.25;
+}
+
+.dot.highlight {
+    stroke-width: 8;
+    stroke-opacity: 0.5;
+    r: 5;
+}
+
+.axis line,
+.axis path {
+    stroke: #cccccc;
+}
+
+pre {
+    background: #eeeeee;
+    border: 1px solid #ccc;
+    color: black;
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    font-family: Consolas, Inconsolata, "Courier New";
+}
+
+@media (max-width: 991px) {
+    .legend-logo {
+        float: none;
+    }
+
+    .sharing {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #mapid {
+        height: 350px;
+    }
+
+    body:not(.map-only) #mapid {
+        margin-left: -15px;
+        margin-right: -15px;
+        border-radius: 0 !important;
+    }
+
+    .legend {
+        font-size: 20px;
+        margin-right: 10px;
+    }
+
+    .legend-inline {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 550px) {
+    #mapid {
+        height: 270px;
+    }
+}
+
+.leaflet-container .leaflet-overlay-pane circle {
+    fill-opacity: 0.75;
+    stroke-opacity: 0.90;
+    stroke-location: inside;
+}
+
+.leaflet-container .leaflet-overlay-pane circle.recovered {
+    fill-opacity: 0;
+}
+
+body.map-only {
+    padding: 0;
+}
+.map-only footer,
+.map-only .free,
+.map-only .progress,
+.map-only .sharing  {
+    display: none;
+}
+
+.map-only .botmedia {
+}
+
+.map-only .legend {
+    font-size: 20px;
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.map-only .legend:last-child {
+    margin-right: 0;
+}
+
+.map-only .legends {
+    border: 1px solid #fff;
+    background: rgba(255,255,255,1);
+    opacity: 0.9;
+    padding: 5px 10px;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    margin-right: 15px;
+}
+
+.map-only .legend-wrapper {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    overflow: initial;
+}
+
+.map-only .legend-logo svg {
+    width: 190px;
+    height: 32px;
+}
+
+.map-only .legend-logo {
+    float: none;
+    margin-bottom: 10px;
+}
+
+.legend-inline {
+    margin-right: 10px;
+}
+
+.legend-inline:last-child {
+    margin-right: 0;
+    text-align: right;
+}
+
+.map-only .legend:last-child {
+    margin-right: 0 !important;
+}
+
+.map-only #mapid {
+    height: 100%;
+    width: 100%;
+    min-height: 300px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.map-empty .updated-info-block,
+.map-empty .leaflet-control,
+.map-empty .legend-wrapper {
+    display: none;
+}
+
+.row {
+    overflow: hidden;
+}
+
+@media (min-width: 900px) {
+    .col-lg-30 {
+        float: left;
+        width: 33%;
+        margin-bottom: 15px;
+    }
+
+    .col-lg-70 {
+        float: left;
+        width: 67%;
+        margin-bottom: 15px;
+    }
+
+    .col-lg-50 {
+        float: left;
+        width: 50%;
+        margin-bottom: 15px;
+    }
+
+    .padding-lg-left {
+        padding-left: 15px;
+    }
+}
+
+table.table ,
+.table thead,
+.table tbody,
+.table tfoot,
+.table tr,
+.table th,
+.table td {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-collapse: collapse;
+    border-spacing: 0;
+    vertical-align: middle;
+    text-align: left;
+    font-size: 14px;
+    -webkit-border-horizontal-spacing: 0;
+    -webkit-border-vertical-spacing: 0;
+}
+
+#search {
+    background: #F2F2F2;
+    border: 1px solid #5C1F99;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 8px 15px;
+    outline: none;
+    width: 100%;
+}
+
+.table tr {
+    border-bottom: 1px solid #56CCF2;
+}
+
+.table tr td {
+    padding: 5px 10px;
+}
+
+.table .text-right {
+    text-align: right;
+}
+
+.container {
+    padding-left: 15px;
+    max-width: 1110px;
+    box-sizing: border-box;
+    padding-right: 15px;
+}
+
+/* footer */
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#content {
+    flex: 1 0 auto;
+}
+
+footer {
+    background-color: #5C1F99;
+    flex-shrink: 0;
+    line-height: 18px;
+}
+
+footer, footer * {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+footer .code {
+    background-color: #3C0871;
+}
+
+footer .inside {
+    padding: 30px 15px 30px 0;
+}
+
+footer .code .inside {
+    font-size: 14px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+footer .code a {
+    display: block;
+    color: #ffffff;
+    padding: 15px;
+    text-decoration: underline;
+}
+
+footer .list {
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+footer .item {
+    float: left;
+    width: 25%;
+}
+
+footer .item a {
+    vertical-align: middle;
+    overflow: hidden;
+    padding-bottom: 5px;
+    clear: both;
+    display: block;
+    text-decoration: underline;
+}
+
+footer .item a img {
+    vertical-align: middle;
+    float: left;
+    margin-right: 8px;
+}
+
+@media (max-width: 900px) {
+    footer .item {
+        width: 100%;
+        float: none;
+    }
+
+    footer .list {
+        padding-top: 30px;
+        padding-bottom: 0px;
+    }
+
+    footer .inside {
+        padding-bottom: 30px;
+        padding-top: 0;
+    }
+}
+
+footer .item .social {
+    overflow: hidden;
+    display: block;
+    margin: 10px 0 5px 0;
+}
+
+footer .item .social a {
+    display: inline-block;
+    margin: 0px 5px 0 0;
+}
+
+footer .item a,
+footer .item h3,
+footer .item {
+    color: #ffffff;
+}
+
+footer .item h3 {
+    font-size: 13px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    line-height: 18px;
+    font-weight: 700;
+}
+
+footer .logo {
+    display: block;
+    margin-bottom: 10px;
+}
+
+footer .thanks {
+    padding-top: 10px;
+    text-transform: uppercase;
+}
+
+.free {
+    text-align: right;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    font-size: 13px;
+    color: #000000;
+}
+
+.free a {
+    color: #000000;
+}
+
+.btn-minor {
+    border: 1px solid #5C1F99;
+    width: 100%;
+    padding: 10px 0;
+    display: block;
+    font-size: 13px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.btn-minor:hover {
+    background-color: #efe3ff;
+}
+
+.leaflet-tile-pane {
+    opacity: 0.25;
+}
+
+
+
+#cookie-law {
+    z-index: 10000000;
+    background: #EAF0F6;
+    padding: 15px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: left;
+}
+
+#cookie-law p,
+#cookie-law a {
+    margin: 0;
+    padding: 0;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 13px;
+    color: #717A84;
+}
+
+
+#cookie-law p {
+    display: block;
+    overflow: hidden;
+}
+
+#cookie-law a {
+    color: #5c1f99;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.close-cookie-banner img {
+    max-height: 15px;
+    float: right;
+    margin-top: 0px;
+    margin-left: 10px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+

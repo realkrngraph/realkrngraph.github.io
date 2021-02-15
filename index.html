@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="sk">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,700&display=swap&subset=latin-ext" rel="stylesheet">
+    <title>Koronavírus - Graf</title>
+    <meta name="title" content="Koronavírus - Graf">
+    <meta name="description" content="">
+    <script src="assets/js/korona.gov.sk.js?v7"></script>
+    <link rel="stylesheet" href="https://mapa.covid.chat/assets/css/style.css?v3"/>
+</head>
+<body>
+
+<div class="header">
+    <div class="modes">
+        <button tabindex="1" id="mode-chart" class="selected" onclick="loadMode('chart')">Graf</button>
+        <button tabindex="2" id="mode-table" onclick="loadMode('table')">Tabuľka</button>
+    </div>
+    <div class="selects">
+        <select tabindex="3" id="metric" onchange="loadMetric()">
+            <option value="">Celkový stav</option>
+            <option value="infected">Počet potvrdených PCR testami</option>
+            <!--option value="active">Počet aktívnych</option-->
+            <option value="tested_daily">Denných PCR testov</option>
+            <option value="infected_daily">Denných PCR prirastkov</option>
+            <!--option value="recovered">Počet vyliečených</option-->
+            <option value="deaths">Počet úmrtí</option>
+            <option value="vaccinated">Počet zaočkovaných (1. dávka)</option>
+            <option value="vaccinated2">Počet zaočkovaných (1. aj 2. dávka)</option>
+        </select>
+        <select tabindex="4" id="range" onchange="loadRange()">
+            <option value="" selected="selected">Celé obdobie</option>
+            <option value="30">Posledný mesiac</option>
+            <option value="90">Posledné 3 mesiace</option>
+            <option value="180">Posledných 6 mesiacov</option>
+        </select>
+    </div>
+</div>
+
+<div id="body">
+
+    <div id="chart" style="height:100%;margin-bottom:0" alt="graf" tabindex="5"></div>
+    <div id="table" style="height:100%;overflow:auto;display:none">
+        <table class="table" style="width:100%">
+            <tbody id="custom-table">
+            </tbody>
+        </table>
+    </div>
+    <div id="footer" style="text-align: right">
+        Zdroj údajov <a href="http://www.uvzsr.sk/" target="_blank">ÚVZ SR</a>, <a href="https://data.korona.gov.sk" target="_blank">data.korona.gov.sk</a>, poskytuje zadarmo <a target="_blank" href="https://bot.media">bot.media</a>
+    </div>
+</div>
+
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+<style>
+    body,  * {
+        color: black;
+        font-family: 'Source Sans Pro', sans-serif;
+        outline: none;
+    }
+
+    .header {
+        height: 40px;
+        display: flex;
+    }
+
+
+    .header button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        color: black;
+        font-size: 16px;
+        border: 0;
+        background-color: transparent;
+        padding-right: 10px;
+        vertical-align: middle;
+    }
+
+    .header button:before {
+        content: ' ';
+        background-color: white;
+        width: 20px;
+        height: 20px;
+        border: 2px solid black;
+        border-radius: 20px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+    .header button.selected:before {
+        background-color: black;
+        box-shadow: inset 0px 0px 0px 4px white;
+    }
+
+    .header select {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 1.25;
+        box-sizing: border-box;
+        max-width: 100%;
+        height: 40px;
+        padding: 5px;
+        border: 2px solid #0B0C0C;
+        margin-right: 10px;
+    }
+
+    .header .modes {
+        margin-right: 0px;
+    }
+
+    .header .selects {
+        margin-left: auto;
+    }
+
+    .table tr {
+        border-bottom: 1px solid #000000;
+    }
+
+    .table tr:hover {
+        background-color: #000000;
+    }
+
+    .table tr:hover th,
+    .table tr:hover td {
+        color: white;
+    }
+
+    .table tr th,
+    .table tr td {
+        padding: 10px 10px;
+        font-size: 16px;
+    }
+
+    .default {
+        color: #1d70b8;
+        fill: #1d70b8;
+        stroke: #1d70b8;
+    }
+    rect.default {
+        stroke-width: 1.5;
+        stroke: #1d70b8;
+        fill: #1d70b8;
+    }
+
+    .active {
+        color: #1d70b8;
+        fill: #1d70b8;
+        stroke: #1d70b8;
+    }
+    rect.active {
+        stroke-width: 1.5;
+        stroke: #1d70b8;
+        fill: #1d70b8;
+    }
+
+    .vaccinated2 {
+        color: #2d612c;
+        fill: #2d612c;
+        stroke: #2d612c;
+    }
+    rect.vaccinated2 {
+        stroke-width: 1.5;
+        stroke: #2d612c;
+        fill: #2d612c;
+    }
+
+    .chart-tooltip {
+        font-size: 16px;
+        max-width: 180px;
+    }
+
+    #body {
+        position: fixed;
+        top: 45px;
+        left: 0;
+        width: 100%;
+        right: 0;
+        bottom: 20px;
+    }
+
+    #footer {
+        color: #6f777b;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        line-height: 20px;
+        font-size: 14px;
+    }
+
+    #footer a {
+        color: #005ea5;
+        text-decoration: underline;
+    }
+
+    .axis {
+        font-size: 14px;
+    }
+
+    @media (max-width: 740px) {
+        #footer {
+            font-size: 12px;
+            line-height: 10px;
+        }
+
+        .axis {
+            font-size: 13px;
+        }
+
+        .header #mode-chart,
+        .header #mode-table {
+            text-align: center;
+        }
+
+        .header select,
+        .table tr th,
+        .table tr td,
+        .header button {
+            font-size: 14px;
+        }
+
+        .header button:before {
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+
+        .header select {
+            display: block;
+            margin-bottom: 5px;
+            margin-right: 0;
+            height: 35px;
+            width: 100%;
+        }
+
+        .header .modes {
+            max-width: 105px;
+        }
+
+        .header .modes button {
+            margin-bottom: 5px;
+        }
+
+        #body {
+            top: 80px;
+        }
+    }
+</style>
+</body>
+</html>
